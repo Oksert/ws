@@ -1,0 +1,30 @@
+// .main-block {
+//     display: flex;
+//     &_game-info {
+//         width: 70%;
+//         display:flex;
+//         height: 500px;
+//         align-content: center;
+
+//     }
+//     width: 10px
+// }
+#game {
+    position: relative;
+    .spin {
+        display: block;
+        &_hide {
+            display: none;
+        }
+    }
+    .close-btn {
+        img {
+            width:30px;
+            height: 30px;
+        }
+        position: absolute;
+        top:0px;
+        right: 0px;
+    }
+
+}

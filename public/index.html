@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="./style.scss">
+    <title>Своя Игра</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.slim.js"></script>
+    <script src="./script.js"></script>
+</head>
+<body>
+    <h1>Лена - Белка!</h1>
+    <dialog id='game'>
+        <span class="close-btn" onclick="closeModal()">
+            <img src="./btnClose.png" alt="">
+        </span>
+        <div class="spin spin_hide">
+            <img src="./spin.gif" alt="">
+        </div>
+        <div class="game-quest">
+            <h1 class="game-quest_number"></h1>
+            <div class="game-quest_text"></div>
+        </div>
+    </dialog>
+    <div class="main-block">
+        <div class="main-block_game-info">
+            Здесь будет размещена минимальная информация об игре
+            <button onclick="join()">
+                Присоединиться
+            </button>
+        </div>
+        <div class="main-block_users-online">
+            <h2>Онлайн игроки</h2>
+        </div>
+    </div>
+</body>
+</html>

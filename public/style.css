@@ -1,0 +1,8 @@
+.main-block {
+  display: flex;
+  width: 10px; }
+  .main-block_game-info {
+    width: 70%;
+    display: flex;
+    height: 500px;
+    align-content: center; }
