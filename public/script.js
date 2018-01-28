@@ -5,7 +5,7 @@ window.join = function() {
 }
 window.closeModal = () => {
     document.getElementById('game').close()
-    socket.emit("exitroom")
+    socket.emit("exitroom", socket.id)
 }
 socket.on('q', (data) =>{ 
     document.querySelector('.spin').classList.add('spin_hide')    

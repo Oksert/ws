@@ -1,53 +1,41 @@
-
-
-// function configSocket(app, io) {
-//     io.on('connection', (socket)=>{
-//         console.log("New connection")
-//     })
-// }
 const socketio = require('socket.io');
 
 class SocketHandler {
     constructor (app) {
         this.io = socketio(app);
         this.events()
-        this.rooms = []
+        this.allRooms = []
+        this.clients = []
 
     }
     events() {
         this.io.on('connection', (socket) => {
             socket.on('wannaplay', () => {
             console.log("New connection on wannaplay")
-                
-                // if(io.nsps['/'].adapter.rooms["room-"+roomno] && io.nsps['/'].adapter.rooms["room-"+roomno].length > 1) 
-                // {
-                //     roomno++;
-                // }
-                // socket.join("room-"+roomno);
-                this.getRoom(socket)
+            this.getRoom(socket)
             })
         })
     }
     getRoom(socket) {
         let freeRoom = ''
         console.log("Searching for room")
-        this.rooms.forEach((room) => {
-            if (room.participants == 1) {
+        this.allRooms.forEach((room) => {
+            if (room.players.length == 1) {
                 freeRoom = room.name
                 socket.join(freeRoom)
-                room.participants++
-                this.startGame(room.name,socket)
+                room.players.push(socket.id)
+                this.startGame(room,socket)
                 return
             }
         })
         if (freeRoom === '') {
-            let roomIdx = this.rooms.length + 1
-            this.rooms.push({
-                name: "room-" + roomIdx,
-                participants: 1,
-                idx: roomIdx
+            let idx = this.allRooms.length + 1
+            this.allRooms.push({
+                name: "room-" + idx,
+                idx: idx,
+                players:[socket.id]
             })
-            freeRoom = "room-" + roomIdx
+            freeRoom = "room-" + idx
             console.log("Create room: ", freeRoom)
             this.io.to(socket.id).emit("wait")
         }
@@ -57,16 +45,22 @@ class SocketHandler {
 
     }
     startGame(room, socket) {
-        this.io.sockets.in(room).emit("q", {
+        this.io.sockets.in(room.name).emit("q", {
             number: 1,
             text: "Первый вопрос"
         })
-        socket.on("exitroom", () => {
-            socket.rooms.includes(soc)
-            console.log("Player left room", room.roomIdx)
-            if (--this.rooms[room.roomIdx].participants === 0) {
-                this.rooms.splice(roomIdx, 1)
-                console.log("Deleting room ", roomIdx)
+        let x = this.io.nsps['/'].adapter.rooms
+        socket.on("exitroom", (socket) => {
+            let x = this.nsp
+            console.log(this.io.nsps['/'].adapter.rooms[room.name].sockets, socket)
+            if (this.io.nsps['/'].adapter.rooms[room.name].sockets[socket]) {
+                this.allRooms[room.idx]
+            }
+            console.log("Player left room", room.idx)
+            console.log(room)
+            if (this.allRooms[room.idx - 1].players.length === 0) {
+                this.allRooms.splice(idx, 1)
+                console.log("Deleting room ", room.idx)
             }
         })
     }
